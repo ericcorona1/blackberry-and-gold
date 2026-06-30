@@ -90,14 +90,14 @@ export function OrderStatus() {
           )}
         </div>
 
-        <div className="space-y-3">
+        <ol className="space-y-3" aria-label="Order progress">
           {STATUS_ORDER.map((status, index) => {
             const currentIndex = getStatusIndex(currentOrder.status);
             const isComplete = index <= currentIndex;
             const isCurrent = index === currentIndex;
 
             return (
-              <div key={status} className="flex items-center gap-3">
+              <li key={status} className="flex items-center gap-3">
                 <div
                   className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0"
                   style={{
@@ -105,6 +105,7 @@ export function OrderStatus() {
                     color: isComplete ? "#000" : GOLD,
                     border: `2px solid ${GOLD}`,
                   }}
+                  aria-hidden="true"
                 >
                   {isComplete ? "✓" : index + 1}
                 </div>
@@ -118,6 +119,7 @@ export function OrderStatus() {
                           ? CREAM
                           : `${CREAM}60`,
                     }}
+                    aria-current={isCurrent ? "step" : undefined}
                   >
                     {ORDER_STATUS_LABELS[status]}
                   </p>
@@ -126,12 +128,13 @@ export function OrderStatus() {
                   <div
                     className="w-2 h-2 rounded-full animate-pulse"
                     style={{ backgroundColor: GOLD }}
+                    aria-label="Current step indicator"
                   />
                 )}
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ol>
       </div>
 
       {currentOrder.status === "served" && (

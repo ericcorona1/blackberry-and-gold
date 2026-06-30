@@ -102,7 +102,8 @@ export function Home() {
               className="block text-sm font-medium mb-1"
               style={{ color: GOLD }}
             >
-              Nickname <span className="text-sm opacity-70">(optional)</span>
+              Nickname
+              <span className="text-sm opacity-70 ml-1">(optional)</span>
             </label>
             <input
               id="nickname"
@@ -120,7 +121,15 @@ export function Home() {
             />
           </div>
 
-          {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+          {error && (
+            <p
+              className="text-red-400 text-sm text-center"
+              role="alert"
+              aria-live="polite"
+            >
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"

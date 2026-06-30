@@ -97,6 +97,8 @@ export function Menu() {
                     borderColor:
                       selectedDrink?.id === drink.id ? GOLD : `${GOLD}40`,
                   }}
+                  aria-pressed={selectedDrink?.id === drink.id}
+                  aria-label={`${drink.name} — $${drink.price}: ${drink.description}`}
                 >
                   <div className="flex justify-between items-start">
                     <span className="font-bold">{drink.name}</span>
@@ -143,7 +145,11 @@ export function Menu() {
             />
           </div>
 
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && (
+            <p className="text-red-400 text-sm" role="alert" aria-live="polite">
+              {error}
+            </p>
+          )}
 
           <div className="flex gap-3">
             <button

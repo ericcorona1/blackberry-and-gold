@@ -81,7 +81,11 @@ export function Admin() {
               />
             </div>
             {passcodeError && (
-              <p className="text-red-400 text-sm text-center">
+              <p
+                className="text-red-400 text-sm text-center"
+                role="alert"
+                aria-live="polite"
+              >
                 Invalid passcode.
               </p>
             )}
@@ -155,7 +159,11 @@ export function Admin() {
           Create Room
         </h3>
         <div className="flex gap-2">
+          <label htmlFor="newRoomCode" className="sr-only">
+            New room code
+          </label>
           <input
+            id="newRoomCode"
             type="text"
             value={newRoomCode}
             onChange={(e) => setNewRoomCode(e.target.value.toUpperCase())}
@@ -174,7 +182,7 @@ export function Admin() {
             className="px-4 py-2 rounded-md font-bold disabled:opacity-50"
             style={{ backgroundColor: GOLD, color: "#000" }}
           >
-            Create
+            {creatingRoom ? "Creating..." : "Create"}
           </button>
         </div>
       </div>
@@ -192,10 +200,13 @@ export function Admin() {
         ) : rooms.length === 0 ? (
           <p className="text-sm opacity-70">No rooms yet.</p>
         ) : (
-          <div className="space-y-2">
+          <ul className="space-y-2" role="listbox" aria-label="Select a room">
             {rooms.map((room) => (
-              <div
+              <li
                 key={room.id}
+                role="option"
+                aria-selected={selectedRoomId === room.id}
+                tabIndex={0}
                 className="flex items-center justify-between p-3 rounded-md cursor-pointer transition-colors"
                 style={{
                   backgroundColor:
@@ -203,6 +214,12 @@ export function Admin() {
                   border: `1px solid ${selectedRoomId === room.id ? GOLD : `${GOLD}20`}`,
                 }}
                 onClick={() => setSelectedRoomId(room.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedRoomId(room.id);
+                  }
+                }}
               >
                 <div>
                   <span className="font-bold tracking-wider">{room.code}</span>
@@ -229,12 +246,13 @@ export function Admin() {
                     backgroundColor: room.is_active ? "#ef4444" : "#22c55e",
                     color: "#fff",
                   }}
+                  aria-label={`${room.is_active ? "Close" : "Open"} room ${room.code}`}
                 >
                   {room.is_active ? "Close" : "Open"}
                 </button>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
 
@@ -247,9 +265,9 @@ export function Admin() {
           <h3 className="font-bold mb-3" style={{ color: GOLD }}>
             Popular Tonight
           </h3>
-          <div className="space-y-2">
+          <ol className="space-y-2" aria-label="Most popular drinks">
             {popularDrinks.map(([name, count], index) => (
-              <div key={name} className="flex items-center justify-between">
+              <li key={name} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold" style={{ color: GOLD }}>
                     #{index + 1}
@@ -265,9 +283,9 @@ export function Admin() {
                 >
                   {count}
                 </span>
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       )}
 
@@ -344,6 +362,7 @@ export function Admin() {
                                 backgroundColor: `${CARD_TEXT}15`,
                                 color: CARD_TEXT,
                               }}
+                              aria-label={`Move order #${order.order_number} back to previous status`}
                             >
                               ← Back
                             </button>
@@ -357,6 +376,7 @@ export function Admin() {
                                 backgroundColor: GOLD,
                                 color: "#000",
                               }}
+                              aria-label={`Move order #${order.order_number} to next status`}
                             >
                               Next →
                             </button>

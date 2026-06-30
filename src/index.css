@@ -12,12 +12,43 @@ body {
   min-height: 100vh;
 }
 
-/* Art Deco decorative elements */
+/* Focus indicators - visible outline for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #d4a843;
+  outline-offset: 2px;
+}
+
 input:focus,
 textarea:focus,
 button:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(212, 168, 67, 0.5);
+}
+
+/* Ensure focus-visible works in tandem with custom focus styles */
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid #d4a843;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(212, 168, 67, 0.5);
+}
+
+/* Skip-to-content link (visually hidden until focused) */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  background: #d4a843;
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.skip-to-content:focus {
+  top: 0;
 }
 
 /* Scrollbar styling */
@@ -35,9 +66,11 @@ button:focus {
 }
 
 /* Smooth transitions */
-* {
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
 }
