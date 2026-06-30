@@ -18,6 +18,7 @@ export function Admin() {
   const {
     rooms,
     loading: roomsLoading,
+    error: roomsError,
     createRoom,
     toggleRoomActive,
   } = useRooms();
@@ -185,6 +186,11 @@ export function Admin() {
             {creatingRoom ? "Creating..." : "Create"}
           </button>
         </div>
+        {roomsError && (
+          <p className="text-red-400 text-sm mt-2" role="alert">
+            Error: {roomsError}
+          </p>
+        )}
       </div>
 
       {/* Rooms List */}
